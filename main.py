@@ -8,6 +8,8 @@ import os
 import dotenv
 import colorama
 
+import emojiset
+
 COLOR = 0xf2ae1c
 
 
@@ -79,6 +81,15 @@ class Main(commands.Cog):
         embed.add_field(name="Created At", value=disnake.utils.format_dt(user.created_at), inline=False)
         embed.add_field(name="Joined At", value=disnake.utils.format_dt(user.joined_at), inline=False)
         await ctx.send(embed=embed)
+    
+    @commands.command(help="Add the word with reactions to the replied message")
+    async def ew(self, ctx: commands.Context, *words):
+        message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+
+        # add reaction to meessage, the emoji of letter
+        for letter in ''.join(words):
+            await message.add_reaction(emojiset.get_emoji(letter))
+
 
 
 intents = disnake.Intents.default()
